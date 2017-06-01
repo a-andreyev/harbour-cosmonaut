@@ -32,10 +32,36 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "pages"
 
+import harbour.cosmonaut.qtrestrocketapi 1.0
+import harbour.cosmonaut.coolfeed 1.0
+import com.github.qtrest.pagination 1.0 // FIXME: harbour restricts this kind of names
+
 ApplicationWindow
 {
-    initialPage: Component { FirstPage { } }
-    cover: Qt.resolvedUrl("cover/CoverPage.qml")
+    initialPage: Component { FeedPage { feedViewModel: coolFeedModel } }
+    cover: Qt.resolvedUrl("cover/CoverPage.qml", {balanceAmount:coolFeedModel.balanceAmount,balanceCurrencyCode:coolFeedModel.balanceCurrencyCode,miles:coolFeedModel.miles})
     allowedOrientations: defaultAllowedOrientations
+
+    QtRestRocketAPI {
+        id: rocketAPI
+        baseUrl: "https://rocketbank.ru/api/v5"
+
+        authTokenHeader: "Authorization"
+        authToken: "Token token="
+    }
+    CoolFeedModel {
+        id: coolFeedModel
+        api: rocketAPI
+        Component.onCompleted: { reload(); }
+        onLoadingStatusChanged: {
+            console.log(loadingStatus)
+        }
+        onLoadingErrorStringChanged: {
+            console.log(loadingErrorString)
+        }
+        onDataChanged: {
+            //console.log(data)
+        }
+    }
 }
 

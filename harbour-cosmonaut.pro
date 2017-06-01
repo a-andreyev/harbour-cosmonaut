@@ -14,17 +14,31 @@ TARGET = harbour-cosmonaut
 
 CONFIG += sailfishapp
 
-SOURCES += src/harbour-cosmonaut.cpp
+SOURCES += src/harbour-cosmonaut.cpp \
+    src/api/qtrestrocketapi.cpp \
+    src/api/models/coolfeedmodel.cpp
 
 OTHER_FILES += qml/harbour-cosmonaut.qml \
     qml/cover/CoverPage.qml \
-    qml/pages/FirstPage.qml \
     qml/pages/SecondPage.qml \
+    qml/pages/FeedPage.qml \
+    qml/pages/components/IconTextButton.qml \
+    qml/pages/AboutPage.qml \
     rpm/harbour-cosmonaut.changes.in \
     rpm/harbour-cosmonaut.spec \
     rpm/harbour-cosmonaut.yaml \
     translations/*.ts \
     harbour-cosmonaut.desktop
+
+DISTFILES += \
+    qml/assets/images/rocket.svg \
+    qml/assets/images/aa13q.jpeg \
+    qml/assets/images/le_me.jpeg \
+    qml/assets/images/flattr.svg \
+    qml/assets/images/git.svg \
+    qml/assets/images/paypal.svg \
+    qml/assets/images/rocketbank.svg
+
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256
 
@@ -32,8 +46,11 @@ SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256
 # following CONFIG line
 CONFIG += sailfishapp_i18n
 
-# German translation is enabled as an example. If you aren't
-# planning to localize your app, remember to comment out the
-# following TRANSLATIONS line. And also do not forget to
-# modify the localized app name in the the .desktop file.
-TRANSLATIONS += translations/harbour-cosmonaut-de.ts
+TRANSLATIONS += translations/harbour-cosmonaut-ru.ts
+
+HEADERS += \
+    src/api/qtrestrocketapi.h \
+    src/api/models/coolfeedmodel.h
+
+#AdCtl: Google Analytics, AdMob, StartAD.mobi, Qt-REST
+include(src/3rd/qtrest/com_github_kafeg_qtrest.pri)

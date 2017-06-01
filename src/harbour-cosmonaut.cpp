@@ -33,6 +33,8 @@
 #endif
 
 #include <sailfishapp.h>
+#include "jsonrestlistmodel.h"
+#include "src/api/models/coolfeedmodel.h"
 
 
 int main(int argc, char *argv[])
@@ -45,6 +47,11 @@ int main(int argc, char *argv[])
     //   - SailfishApp::pathTo(QString) to get a QUrl to a resource file
     //
     // To display the view, call "show()" (will show fullscreen on device).
+
+    //api and models
+    QtRestRocketAPI::declareQML();
+    CoolFeedModel::declareQML();
+    JsonRestListModel::declareQML(); // FIXME: restricted name in harbour
 
     return SailfishApp::main(argc, argv);
 }

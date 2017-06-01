@@ -32,21 +32,42 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
-    Label {
-        id: label
-        anchors.centerIn: parent
-        text: qsTr("My Cover")
+    property string balanceAmount: ""
+    property string balanceCurrencyCode: ""
+    property string miles: ""
+
+    Image {
+        anchors.fill: parent
+        id: bgLogo
+        // TODO: fix draft rendering
+        source: "../assets/images/rocket.svg"
+        opacity: 0.63
+        fillMode: Image.PreserveAspectCrop
+    }
+    Column {
+        anchors.fill: parent
+        anchors.margins: Theme.paddingMedium
+        Label {
+            id: labelRocketRubles
+            text: miles+qsTr("rocketrubles")
+        }
+        Label {
+            id: labelRubles
+            text: balanceAmount+balanceCurrencyCode
+        }
+
+        Label {
+            // TODO:
+            id: labelFreeCashOut
+            text: qsTr("? free cash outs")
+        }
     }
 
     CoverActionList {
         id: coverAction
 
         CoverAction {
-            iconSource: "image://theme/icon-cover-next"
-        }
-
-        CoverAction {
-            iconSource: "image://theme/icon-cover-pause"
+            iconSource: "image://theme/icon-cover-refresh"
         }
     }
 }

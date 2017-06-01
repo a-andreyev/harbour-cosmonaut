@@ -61,11 +61,11 @@
     <name>SecondPage</name>
     <message>
         <source>Nested Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Unterseite</translation>
     </message>
     <message>
         <source>Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Element</translation>
     </message>
 </context>
 </TS>
