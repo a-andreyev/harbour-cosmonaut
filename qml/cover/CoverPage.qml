@@ -32,9 +32,9 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
-    property string balanceAmount: ""
-    property string balanceCurrencyCode: ""
-    property string miles: ""
+    property alias balanceAmount: labelRubles.text
+    property alias balanceCurrencyCode: labelBalanceCurrencyCode.text
+    property alias miles: labelRocketRubles.text
 
     Image {
         anchors.fill: parent
@@ -47,14 +47,29 @@ CoverBackground {
     Column {
         anchors.fill: parent
         anchors.margins: Theme.paddingMedium
-        Label {
-            id: labelRocketRubles
-            text: miles+qsTr("rocketrubles")
+        Row {
+            spacing: Theme.paddingMedium
+            Label {
+                id: labelRubles
+                onTextChanged: {
+                    console.log("balanceAmount!", text)
+                }
+            }
+            Label {
+                id: labelBalanceCurrencyCode
+            }
         }
-        Label {
-            id: labelRubles
-            text: balanceAmount+balanceCurrencyCode
+        Row {
+            spacing: Theme.paddingMedium
+            Label {
+                id: labelRocketRubles
+            }
+            Label {
+                id: labelRocketRublesCode
+                text: qsTr("rocketrubles")
+            }
         }
+
 
         Label {
             // TODO:

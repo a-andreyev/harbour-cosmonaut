@@ -58,6 +58,32 @@
     </message>
 </context>
 <context>
+    <name>FeedPage</name>
+    <message>
+        <source>rocketrubles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Free cash outs</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LoginPage</name>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PIN code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter Rocketbank card PIN code</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SecondPage</name>
     <message>
         <source>Nested Page</source>

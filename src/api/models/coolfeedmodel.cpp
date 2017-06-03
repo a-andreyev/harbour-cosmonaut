@@ -7,7 +7,6 @@ CoolFeedModel::CoolFeedModel(QObject *parent) : AbstractJsonRestListModel(parent
 
 QString CoolFeedModel::balanceAmount() const
 {
-    qDebug()<<"gettin"<<m_balanceAmount;
     return m_balanceAmount;
 }
 
@@ -41,12 +40,10 @@ void CoolFeedModel::setBalanceCurrencyCode(QString balanceCurrencyCode)
 
 void CoolFeedModel::setBalanceAmount(QString balanceAmount)
 {
-    qDebug()<<"balanceAmount::"<<balanceAmount;
     if (m_balanceAmount == balanceAmount)
         return;
 
     m_balanceAmount = balanceAmount;
-    qDebug()<<"balanceAmountChanged(balanceAmount)"<<balanceAmount;
     emit balanceAmountChanged(balanceAmount);
 }
 
@@ -66,9 +63,8 @@ QVariantList CoolFeedModel::getVariantList(QByteArray bytes)
 
     // FIXME: magic strings
 
-    setMiles(jsonObject.value(QString("miles")).toString());
+    setMiles(QString::number(jsonObject.value(QString("miles")).toDouble()));
     QJsonObject balanceObject = jsonObject.value(QString("balance")).toObject();
-    qDebug()<<"balanceObject::"<<balanceObject;
     setBalanceAmount(QString::number(balanceObject.value(QString("amount")).toDouble()));
     setBalanceCurrencyCode(balanceObject.value(QString("currency_code")).toString());
 
@@ -80,7 +76,6 @@ QVariantList CoolFeedModel::getVariantList(QByteArray bytes)
             feedArray.append(feedItem);
         }
     }
-    qDebug() << "feedArray.count()" << feedArray.count();
 
     return feedArray.toVariantList();
 }
@@ -101,6 +96,6 @@ QNetworkReply *CoolFeedModel::fetchDetailImpl(QString id)
 QVariantMap CoolFeedModel::preProcessItem(QVariantMap item)
 {
     // TODO
-    qDebug()<<item;
+    //qDebug()<<item;
     return item;
 }

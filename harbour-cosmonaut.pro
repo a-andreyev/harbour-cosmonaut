@@ -37,7 +37,8 @@ DISTFILES += \
     qml/assets/images/flattr.svg \
     qml/assets/images/git.svg \
     qml/assets/images/paypal.svg \
-    qml/assets/images/rocketbank.svg
+    qml/assets/images/rocketbank.svg \
+    qml/pages/LoginPage.qml
 
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256

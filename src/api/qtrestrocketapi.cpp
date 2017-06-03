@@ -28,7 +28,7 @@ QNetworkRequest QtRestRocketAPI::createRequest(const QUrl &url) const
     request.setRawHeader(QString("X-Sig").toUtf8(),xSig.toUtf8());
     request.setRawHeader(QString("X-Time").toUtf8(),timestamp.toUtf8());
     request.setUrl(url);
-    qDebug() << timestamp << url;
+    // qDebug() << timestamp << url;
     return request;
 }
 

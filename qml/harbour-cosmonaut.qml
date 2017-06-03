@@ -47,21 +47,28 @@ ApplicationWindow
         baseUrl: "https://rocketbank.ru/api/v5"
 
         authTokenHeader: "Authorization"
-        authToken: "Token token="
+        authToken: "Token token=78d2425e-c3ad-4ec7-9562-b2f189290b69167538"
     }
     CoolFeedModel {
         id: coolFeedModel
         api: rocketAPI
         Component.onCompleted: { reload(); }
         onLoadingStatusChanged: {
-            console.log(loadingStatus)
+            //console.log(loadingStatus)
         }
+        onLoadingErrorCodeChanged: {
+            console.log("error code", loadingErrorCode)
+        }
+
         onLoadingErrorStringChanged: {
-            console.log(loadingErrorString)
+           console.log(loadingErrorString)
         }
         onDataChanged: {
             //console.log(data)
         }
+    }
+    Component.onCompleted: {
+        pageStack.push("pages/LoginPage.qml", {});
     }
 }
 
