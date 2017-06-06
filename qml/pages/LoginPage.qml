@@ -4,9 +4,11 @@ import Sailfish.Silica 1.0
 import "./components"
 
 Dialog {
-    id: page
+    id: pages
 
     allowedOrientations: Orientation.All
+
+    // TODO: 18E4
 
     SilicaFlickable {
         anchors.fill: parent
@@ -32,7 +34,7 @@ Dialog {
         TextField {
             echoMode: TextInput.Password
             anchors.fill: parent
-            id: tfphonenumber
+            id: pinInputTextField
             anchors.topMargin: header.height
             width: parent.width
             height: parent.height-header.height
@@ -43,7 +45,7 @@ Dialog {
     }
     onDone: {
         if (result == DialogResult.Accepted) {
-            console.log("accepted")
+            coolFeedModel.login(pinInputTextField.text)
         }
         else {
             Qt.quit()

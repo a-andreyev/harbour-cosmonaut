@@ -38,8 +38,9 @@ import com.github.qtrest.pagination 1.0 // FIXME: harbour restricts this kind of
 
 ApplicationWindow
 {
+    id: appWindow
     initialPage: Component { FeedPage { feedViewModel: coolFeedModel } }
-    cover: Qt.resolvedUrl("cover/CoverPage.qml", {balanceAmount:coolFeedModel.balanceAmount,balanceCurrencyCode:coolFeedModel.balanceCurrencyCode,miles:coolFeedModel.miles})
+    cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
 
     QtRestRocketAPI {
@@ -48,6 +49,9 @@ ApplicationWindow
 
         authTokenHeader: "Authorization"
         authToken: "Token token=78d2425e-c3ad-4ec7-9562-b2f189290b69167538"
+        onAuthRequested: {
+            pageStack.push("pages/LoginPage.qml", {});
+        }
     }
     CoolFeedModel {
         id: coolFeedModel
@@ -57,18 +61,20 @@ ApplicationWindow
             //console.log(loadingStatus)
         }
         onLoadingErrorCodeChanged: {
-            console.log("error code", loadingErrorCode)
+            //console.log("error code", loadingErrorCode)
         }
 
         onLoadingErrorStringChanged: {
-           console.log(loadingErrorString)
+           //console.log(loadingErrorString)
         }
         onDataChanged: {
             //console.log(data)
         }
-    }
-    Component.onCompleted: {
-        pageStack.push("pages/LoginPage.qml", {});
+        onTokenChanged: {
+            console.log(token)
+            api.setAuthTokenCode(token)
+            reload()
+        }
     }
 }
 

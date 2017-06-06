@@ -2,7 +2,10 @@
 
 CoolFeedModel::CoolFeedModel(QObject *parent) : AbstractJsonRestListModel(parent)
 {
+    // FIXME:
+    setEmail("myEmail");
 
+    // api.setAuthTokenCode(token)
 }
 
 QString CoolFeedModel::balanceAmount() const
@@ -18,6 +21,40 @@ QString CoolFeedModel::balanceCurrencyCode() const
 QString CoolFeedModel::miles() const
 {
     return m_miles;
+}
+
+QString CoolFeedModel::email() const
+{
+    return m_email;
+}
+
+QString CoolFeedModel::token() const
+{
+    return m_token;
+}
+
+void CoolFeedModel::setEmail(QString email)
+{
+    if (m_email == email)
+        return;
+
+    m_email = email;
+    emit emailChanged(email);
+}
+
+void CoolFeedModel::setToken(QString token)
+{
+    if (m_token == token)
+        return;
+
+    m_token = token;
+    emit tokenChanged(token);
+}
+
+void CoolFeedModel::login(QString pin)
+{
+    static_cast<QtRestRocketAPI *>(apiInstance())->login(m_email,pin);
+    reload();
 }
 
 void CoolFeedModel::setMiles(QString miles)
@@ -61,23 +98,34 @@ QVariantList CoolFeedModel::getVariantList(QByteArray bytes)
         qDebug() << parseError.errorString();
     }
 
-    // FIXME: magic strings
+    // TODO: get rid of magic strings
 
-    setMiles(QString::number(jsonObject.value(QString("miles")).toDouble()));
-    QJsonObject balanceObject = jsonObject.value(QString("balance")).toObject();
-    setBalanceAmount(QString::number(balanceObject.value(QString("amount")).toDouble()));
-    setBalanceCurrencyCode(balanceObject.value(QString("currency_code")).toString());
+    qDebug()<<jsonObject;
 
-    QJsonValue dates = jsonObject.value(QString("dates"));
-    //qDebug<< dates;
-    QJsonArray feedArray;
-    foreach (QJsonValue dateValue, dates.toObject()) {
-        foreach (QJsonValue feedItem, dateValue.toArray()) {
-            feedArray.append(feedItem);
-        }
+    QString token = jsonObject.value(QString("token")).toString();
+    if (!token.isEmpty()) {
+        setToken(token);
+        return QJsonArray().toVariantList();
     }
+    else {
+        setEmail(jsonObject.value(QString("email")).toString());
 
-    return feedArray.toVariantList();
+        setMiles(QString::number(jsonObject.value(QString("miles")).toDouble()));
+        QJsonObject balanceObject = jsonObject.value(QString("balance")).toObject();
+        setBalanceAmount(QString::number(balanceObject.value(QString("amount")).toDouble()));
+        setBalanceCurrencyCode(balanceObject.value(QString("currency_code")).toString());
+
+        QJsonValue dates = jsonObject.value(QString("dates"));
+        //qDebug<< dates;
+        QJsonArray feedArray;
+        foreach (QJsonValue dateValue, dates.toObject()) {
+            foreach (QJsonValue feedItem, dateValue.toArray()) {
+                feedArray.append(feedItem);
+            }
+        }
+
+        return feedArray.toVariantList();
+    }
 }
 
 QNetworkReply *CoolFeedModel::fetchMoreImpl(const QModelIndex &parent)
