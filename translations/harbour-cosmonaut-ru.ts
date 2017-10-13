@@ -104,6 +104,11 @@
         <source>rocketrubles</source>
         <translation>рокетруб</translation>
     </message>
+    <message>
+        <source>Refresh</source>
+        <translatorcomment>Обновить</translatorcomment>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>LoginPage</name>

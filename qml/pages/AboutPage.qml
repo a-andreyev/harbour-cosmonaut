@@ -1,5 +1,6 @@
 import QtQuick 2.1
 import Sailfish.Silica 1.0
+import QtMultimedia 5.5
 import "./components"
 
 Page {
@@ -35,6 +36,20 @@ Page {
                     This application is developed with Sailfish IDE
                     in GNU/Linux/Archlinux/KDE operating system.
                     Licence: GPLv3")
+                Audio {
+                    id: easterEggMusic
+                    source: "../assets/rocketbank.ogg"
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    property int easterEggCounter: 5
+                    onClicked: {
+                        easterEggCounter--
+                        if (easterEggCounter<0) {
+                            easterEggMusic.play()
+                        }
+                    }
+                }
             }
             SectionHeader {
                 text: qsTr("Donate")

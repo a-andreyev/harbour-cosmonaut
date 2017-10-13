@@ -13,11 +13,11 @@ Page {
 
     onStatusChanged: {
         if (page.status === PageStatus.Active && pageStack.depth === 1) {
-            pageStack.pushAttached(Qt.resolvedUrl("AboutPage.qml"), {});
             if (!model.api.email) {
                 model.api.registrationRequested()
             }
             else {
+                pageStack.pushAttached(Qt.resolvedUrl("AboutPage.qml"), {});
                 coolFeedModel.reload()
             }
         }
@@ -27,8 +27,10 @@ Page {
         target: model.api
 
         onRegistrationRequested: {
-            pageStack.completeAnimation()
-            pageStack.push(Qt.resolvedUrl("AuthPage.qml"), {"model": model});
+            if (page.status === PageStatus.Active && pageStack.depth === 1) {
+                // pageStack.completeAnimation()
+                pageStack.push(Qt.resolvedUrl("AuthPage.qml"), {"model": model});
+            }
         }
 
         onRegistered: {
@@ -53,6 +55,15 @@ Page {
     SilicaFlickable {
         anchors.fill: parent
 
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("Refresh")
+                onClicked: {
+                    coolFeedModel.reload()
+                }
+            }
+        }
+
         PageHeader {
             title: model.balanceAmount + " " + model.balanceCurrencyCode
             id: header
@@ -65,6 +76,7 @@ Page {
             anchors.fill: parent
             VerticalScrollDecorator {}
             delegate: FeedListItem {
+                width: parent.width
                 description: details ? details : ""
                 text: money ? money.amount ? money.amount : "" : ""
                 extraText: {
