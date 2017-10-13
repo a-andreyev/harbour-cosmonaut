@@ -14,16 +14,13 @@ TARGET = harbour-cosmonaut
 
 CONFIG += sailfishapp
 
+QT += systeminfo
+
 SOURCES += src/harbour-cosmonaut.cpp \
     src/api/qtrestrocketapi.cpp \
     src/api/models/coolfeedmodel.cpp
 
-OTHER_FILES += qml/harbour-cosmonaut.qml \
-    qml/cover/CoverPage.qml \
-    qml/pages/SecondPage.qml \
-    qml/pages/FeedPage.qml \
-    qml/pages/components/IconTextButton.qml \
-    qml/pages/AboutPage.qml \
+OTHER_FILES += \
     rpm/harbour-cosmonaut.changes.in \
     rpm/harbour-cosmonaut.spec \
     rpm/harbour-cosmonaut.yaml \
@@ -31,6 +28,15 @@ OTHER_FILES += qml/harbour-cosmonaut.qml \
     harbour-cosmonaut.desktop
 
 DISTFILES += \
+    qml/harbour-cosmonaut.qml \
+    qml/cover/CoverPage.qml \
+    qml/pages/SecondPage.qml \
+    qml/pages/FeedPage.qml \
+    qml/pages/components/IconTextButton.qml \
+    qml/pages/AboutPage.qml \
+    qml/pages/LoginPage.qml \
+    qml/pages/AuthPage.qml \
+    qml/pages/components/FeedListItem.qml \
     qml/assets/images/rocket.svg \
     qml/assets/images/aa13q.jpeg \
     qml/assets/images/le_me.jpeg \
@@ -38,7 +44,7 @@ DISTFILES += \
     qml/assets/images/git.svg \
     qml/assets/images/paypal.svg \
     qml/assets/images/rocketbank.svg \
-    qml/pages/LoginPage.qml
+    qml/assets/rocketbank.ogg
 
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256

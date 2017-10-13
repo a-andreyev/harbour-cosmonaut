@@ -6,7 +6,17 @@ import "./components"
 Dialog {
     id: pages
 
+    property var model
+
     allowedOrientations: Orientation.All
+    canAccept: false
+    Connections {
+        target: model.api
+        onLoggedIn: {
+            canAccept = true
+            accept()
+        }
+    }
 
     // TODO: 18E4
 
@@ -29,6 +39,7 @@ Dialog {
         DialogHeader {
             id: header
             title: qsTr("Enter Rocketbank card PIN code")
+            acceptText: ""
         }
 
         TextField {
@@ -41,14 +52,10 @@ Dialog {
             placeholderText: qsTr("PIN code")
             inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText | Qt.ImhDigitsOnly | Qt.ImhHiddenText
             validator: IntValidator { bottom: 0; top: 9999 }
-        }
-    }
-    onDone: {
-        if (result == DialogResult.Accepted) {
-            coolFeedModel.login(pinInputTextField.text)
-        }
-        else {
-            Qt.quit()
+            EnterKey.iconSource: "image://theme/icon-m-enter-next"
+            EnterKey.onClicked: {
+                model.api.login(text)
+            }
         }
     }
     onRejected: {

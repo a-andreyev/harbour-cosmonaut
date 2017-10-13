@@ -38,11 +38,48 @@
     <message>
         <source>This application is made by Alexey Andreyev
                     as non-commertial work without Rocketbank.
-                    Application cover is made by Alexey
-                    with help from Ancelad (thanks!).
                     This application is developed with Sailfish IDE
                     in GNU/Linux/Archlinux/KDE operating system.
                     Licence: GPLv3</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AuthPage</name>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SMS code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Phone number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Request SMS code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Verify SMS code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Application registration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reject</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Approve</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hello, </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -61,10 +98,6 @@
     <name>FeedPage</name>
     <message>
         <source>rocketrubles</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Free cash outs</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -91,6 +124,17 @@
     </message>
     <message>
         <source>Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>harbour-cosmonaut</name>
+    <message>
+        <source>Server Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server Message</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -1,3 +1,3 @@
 [submodule "src/3rd/qtrest"]
 	path = src/3rd/qtrest
-	url = git@github.com:kafeg/qtrest.git
+	url = git@github.com:a-andreyev/qtrest.git

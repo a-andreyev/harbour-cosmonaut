@@ -40,6 +40,7 @@ CoverBackground {
         anchors.fill: parent
         id: bgLogo
         // TODO: fix draft rendering
+        smooth: true
         source: "../assets/images/rocket.svg"
         opacity: 0.63
         fillMode: Image.PreserveAspectCrop
@@ -48,12 +49,16 @@ CoverBackground {
         anchors.fill: parent
         anchors.margins: Theme.paddingMedium
         Label {
+            width: parent.width
             id: labelRubles
             text: balanceAmount + " " + balanceCurrencyCode
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
         Label {
+            width: parent.width
             id: labelRocketRubles
             text: miles + " " + qsTr("rocketrubles")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
         Label {
@@ -65,9 +70,9 @@ CoverBackground {
 
     CoverActionList {
         id: coverAction
-
         CoverAction {
             iconSource: "image://theme/icon-cover-refresh"
+            onTriggered: coolFeedModel.reload()
         }
     }
 }

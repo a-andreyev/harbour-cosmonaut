@@ -3,24 +3,64 @@
 //#include <QTextStream>
 #include <QCryptographicHash>
 #include <QDateTime>
+#include <QtSystemInfo>
 
 QtRestRocketAPI::QtRestRocketAPI() : APIBase(0)
 {
-    _loginPath = "/login";
-    _tokenPrefix = "Token token=";
-    _hashPrefix = "0Jk211uvxyyYAFcSSsBK3+etfkDPKMz6asDqrzr+f7c=_";
-    _hashSuffix = "_dossantos";
-    _coolFeedPath = "/operations/cool_feed";
-    setAcceptHeader(QString("Content-Type").toUtf8());
+    //fields:
+    _organizationFieldName = QStringLiteral("aa13q");
+    _appFieldName = QStringLiteral("cosmonaut");
+    _xDeviceIdFieldName = QStringLiteral("X-Device-ID");
+    _xSigFieldName = QStringLiteral("X-Sig");
+    _xTimeFieldName = QStringLiteral("X-Time");
+    _xWWWFormUrlencodedContentTypeName = QStringLiteral("application/x-www-form-urlencoded");
+    _jsonContentTypeName = QStringLiteral("application/json");
+    _responseFieldName = QStringLiteral("response");
+    _descriptionFieldName = QStringLiteral("description");
+    _showItFieldName = QStringLiteral("show_it");
+    _emailFieldName = QStringLiteral("email");
+    _passwordFieldName = QStringLiteral("password");
+    _tokenFieldName = QStringLiteral("token");
+    _smsVerificationFieldName = QStringLiteral("sms_verification");
+    _codeJsonString = QStringLiteral("{\"code\":\"%1\"}");
+    _phoneJsonString = QStringLiteral("{\"phone\":\"%1\"}");
+    _statusFieldName = QStringLiteral("status");
+    _userFieldName = QStringLiteral("user");
+    _firstNameFieldName = QStringLiteral("first_name");
+    _idFieldName = QStringLiteral("id");
+
+    _userAgent = QStringLiteral("Cosmonaut/5 (aa13q@ya.ru)");
+    _coolFeedPath = QStringLiteral("/operations/cool_feed");
+    _loginPath = QStringLiteral("/login");
+    _deviceRegisterPath = QStringLiteral("/devices/register");
+    _verifySMSPrefix = QStringLiteral("/sms_verifications/");
+    _verifySMSSuffix = QStringLiteral("/verify");
+    _tokenPrefix = QStringLiteral("Token token=");
+    _hashPrefix = QStringLiteral("0Jk211uvxyyYAFcSSsBK3+etfkDPKMz6asDqrzr+f7c=_");
+    _hashSuffix = QStringLiteral("_dossantos");
+
+    QDeviceInfo *systemDeviceInfo = new QDeviceInfo(this);
+    _deviceID = QStringLiteral("COSMONAUT_%1").arg(systemDeviceInfo->uniqueDeviceID().remove(QChar('-')).right(12));
+    systemDeviceInfo->deleteLater();
+    // qDebug()<<Q_FUNC_INFO<<_deviceID;
+
+    _settings = new QSettings(_organizationFieldName,_appFieldName,this);
+    // qDebug()<<Q_FUNC_INFO<<_settings->fileName();
+
+    setToken(_settings->value(_tokenFieldName).toString());
+    setEmail(_settings->value(_emailFieldName).toString());
+    setFirstName(_settings->value(_firstNameFieldName).toString());
 }
+
+
 
 QNetworkRequest QtRestRocketAPI::createRequest(const QUrl &url) const
 {
+    //qDebug()<<Q_FUNC_INFO<<url.path();
+
     QNetworkRequest request;
-    // TODO: move app name to constans and add option to hash phone number
-    request.setRawHeader(QString("X-Device-ID").toUtf8(),QString("ROCKCLI_74e543dcb7e6").toUtf8());
-    // TODO: change useragent
-    request.setHeader(QNetworkRequest::UserAgentHeader,QString("RocketScience/5 (ale@songbee.net)").toUtf8()); // TODO
+    request.setRawHeader(_xDeviceIdFieldName.toUtf8(),_deviceID.toUtf8());
+    request.setHeader(QNetworkRequest::UserAgentHeader,_userAgent.toUtf8());
 
     QDateTime currentDateTime = QDateTime::currentDateTimeUtc();
     uint unixtime = currentDateTime.toTime_t();
@@ -29,32 +69,25 @@ QNetworkRequest QtRestRocketAPI::createRequest(const QUrl &url) const
     QString xSig = QString(
                 QCryptographicHash::hash(pass.toUtf8(),
                                          QCryptographicHash::Md5).toHex());
-    request.setRawHeader(QString("X-Sig").toUtf8(),xSig.toUtf8());
-    request.setRawHeader(QString("X-Time").toUtf8(),timestamp.toUtf8());
+    request.setRawHeader(_xSigFieldName.toUtf8(),xSig.toUtf8());
+    request.setRawHeader(_xTimeFieldName.toUtf8(),timestamp.toUtf8());
 
-    qDebug()<<"tok:"<<_token;
-
-    if (_token.isEmpty()) {
-        QUrl loginUrl = QUrl(baseUrl()+_loginPath);
-        QUrlQuery query;
-        query.addQueryItem("email", _email);
-        query.addQueryItem("password", _pin);
-        loginUrl.setQuery(query.query());
-        request.setUrl(loginUrl);
+    if (url.toString().endsWith(_coolFeedPath)) {
+        request.setHeader(QNetworkRequest::ContentTypeHeader, _xWWWFormUrlencodedContentTypeName);
     }
     else {
-        request.setUrl(url);
+        request.setHeader(QNetworkRequest::ContentTypeHeader, _jsonContentTypeName);
     }
+
+    request.setUrl(url);
     // qDebug() << timestamp << url;
     return request;
 }
 
 QNetworkReply *QtRestRocketAPI::handleRequest(QString path, QStringList sort, Pagination *pagination, QVariantMap filters, QStringList fields, QString id)
 {
-    if (path == _coolFeedPath) {
-        return getFeed(sort, pagination, filters, fields);
-    }
-    // TODO: null
+    qDebug()<<Q_FUNC_INFO<<path;
+    return Q_NULLPTR;
 }
 
 QNetworkReply *QtRestRocketAPI::getFeed(QStringList sort, Pagination *pagination, QVariantMap filters, QStringList fields)
@@ -65,23 +98,191 @@ QNetworkReply *QtRestRocketAPI::getFeed(QStringList sort, Pagination *pagination
     return reply;
 }
 
+QString QtRestRocketAPI::email() const
+{
+    return _email;
+}
+
+QString QtRestRocketAPI::token() const
+{
+    return _token;
+}
+
+QString QtRestRocketAPI::firstName() const
+{
+    return _firstName;
+}
+
 void QtRestRocketAPI::replyError(QNetworkReply::NetworkError error)
 {
-    qDebug()<<error;
+    // qDebug()<<error;
     if (error==QNetworkReply::AuthenticationRequiredError) {
-        _token = ""; // FIXME: token as q_property
-        emit authRequested();
+        setToken(QStringLiteral(""));
+        emit rocketCodeRequested();
+    }
+    else if (error==QNetworkReply::ProtocolInvalidOperationError) {
+        QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+        QByteArray answer = reply->readAll();
+        QJsonDocument itemDoc = QJsonDocument::fromJson(answer);
+        QJsonObject rootObject = itemDoc.object();
+        QJsonValue response = rootObject.value(_responseFieldName);
+        QJsonObject responseObj = response.toObject();
+        QString description = responseObj.value(_descriptionFieldName).toString();
+        if (responseObj.value(_showItFieldName).toBool()) {
+            emit serverError(description);
+        }
     }
 }
 
-void QtRestRocketAPI::login(QString email, QString pin)
+void QtRestRocketAPI::login(QString pin)
 {
-    _pin = pin;
-    _email  = email;
+    // qDebug()<<Q_FUNC_INFO<<pin;
+    QUrl loginUrl = QUrl(baseUrl()+_loginPath);
+    QUrlQuery query;
+    query.addQueryItem(_emailFieldName, _email);
+    query.addQueryItem(_passwordFieldName, pin);
+    loginUrl.setQuery(query.query());
+
+    QNetworkReply *reply = get(loginUrl);
+    connect(reply,SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(replyError(QNetworkReply::NetworkError)));
+    connect(reply, SIGNAL(finished()), this, SLOT(loginFinished()));
+}
+
+void QtRestRocketAPI::loginFinished()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+    QByteArray answer = reply->readAll();
+
+    QJsonDocument itemDoc = QJsonDocument::fromJson(answer);
+    QJsonObject rootObject = itemDoc.object();
+    // qDebug()<<Q_FUNC_INFO<<rootObject;
+    setToken(rootObject.value(_tokenFieldName).toString());
+}
+
+void QtRestRocketAPI::requestSMS(QString phone)
+{
+    QString phoneData = _phoneJsonString.arg(phone);
+    // qDebug()<<Q_FUNC_INFO<<phoneData;
+    QNetworkReply *reply = post(QUrl(baseUrl()+_deviceRegisterPath), phoneData.toUtf8());
+    connect(reply,SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(replyError(QNetworkReply::NetworkError)));
+    connect(reply, SIGNAL(finished()), this, SLOT(requestSMSFinished()));
+}
+
+void QtRestRocketAPI::requestSMSFinished()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+    QByteArray answer = reply->readAll();
+    // qDebug()<<Q_FUNC_INFO<<answer;
+
+    QJsonDocument itemDoc = QJsonDocument::fromJson(answer);
+    QJsonObject rootObject = itemDoc.object();
+    QJsonValue response = rootObject.value(_responseFieldName);
+    QJsonObject responseObj = response.toObject();
+    QString description = responseObj.value(_descriptionFieldName).toString();
+    emit serverMessage(description);
+    int status = responseObj.value(_statusFieldName).toInt();
+    if (status==200) {
+        QJsonValue smsVerification = rootObject.value(_smsVerificationFieldName);
+        QJsonObject smsObj = smsVerification.toObject();
+        QString id = smsObj.value(_idFieldName).toString();
+        _smsId = id;
+        // qDebug()<<Q_FUNC_INFO<<_smsId;
+    }
+}
+
+void QtRestRocketAPI::verifySMSCode(QString smsCode)
+{
+    QString codeData = _codeJsonString.arg(smsCode);
+    // qDebug()<<Q_FUNC_INFO<<codeData;
+    QNetworkReply *reply = patch(QUrl(baseUrl()+_verifySMSPrefix+_smsId+_verifySMSSuffix), codeData.toUtf8());
+    connect(reply,SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(replyError(QNetworkReply::NetworkError)));
+    connect(reply, SIGNAL(finished()), this, SLOT(verifySMSCodeFinished()));
+}
+
+void QtRestRocketAPI::verifySMSCodeFinished()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+    QByteArray answer = reply->readAll();
+    // qDebug()<<Q_FUNC_INFO<<answer;
+
+    QJsonDocument itemDoc = QJsonDocument::fromJson(answer);
+    QJsonObject rootObject = itemDoc.object();
+    QJsonValue response = rootObject.value(_responseFieldName);
+    QJsonObject responseObj = response.toObject();
+    QString description = responseObj.value(_descriptionFieldName).toString();
+    emit serverMessage(description);
+    int status = responseObj.value(_statusFieldName).toInt();
+    // qDebug()<<Q_FUNC_INFO<<status;
+    if (status==200) {
+        QJsonValue user = rootObject.value(_userFieldName);
+        QJsonObject userObj = user.toObject();
+        setEmail(userObj.value(_emailFieldName).toString());
+        setFirstName(userObj.value(_firstNameFieldName).toString());
+    }
+
 }
 
 void QtRestRocketAPI::setAuthTokenCode(QString authTokenCode)
 {
-    _token = authTokenCode;
-    setAuthToken(QString(_tokenPrefix+_token).toUtf8());
+    setAuthToken(QString(_tokenPrefix+authTokenCode).toUtf8());
+}
+
+void QtRestRocketAPI::setEmail(QString email)
+{
+    // qDebug()<<Q_FUNC_INFO<<email;
+    if (email.isEmpty()) {
+        // qDebug()<<Q_FUNC_INFO;
+        emit registrationRequested();
+        return;
+    }
+    if (_email == email)
+        return;
+    _email = email;
+    emit emailChanged(_email);
+}
+
+void QtRestRocketAPI::setToken(QString token)
+{
+    if (_token == token)
+        return;
+    if (!token.isEmpty()) {
+        _token = token;
+        setAuthTokenCode(_token);
+        emit tokenChanged(_token);
+        emit loggedIn();
+    }
+    // TODO: save token option
+    /*
+    if (token.isEmpty()) {
+        _settings->remove(_tokenFieldName);
+    }
+    else {
+        _settings->setValue(_tokenFieldName,_token);
+    }
+    */
+}
+
+void QtRestRocketAPI::setFirstName(QString firstName)
+{
+    if (_firstName == firstName)
+        return;
+    _firstName = firstName;
+    emit firstNameChanged(firstName);
+}
+
+void QtRestRocketAPI::saveRegistation()
+{
+    if (_email.isEmpty()) {
+        _settings->remove(_emailFieldName);
+    }
+    else {
+        _settings->setValue(_emailFieldName,_email);
+    }
+    if (_firstName.isEmpty()) {
+        _settings->remove(_firstNameFieldName);
+    }
+    else {
+        _settings->setValue(_firstNameFieldName,_firstName);
+    }
+    emit registered();
 }

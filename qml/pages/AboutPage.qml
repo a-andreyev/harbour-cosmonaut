@@ -32,8 +32,6 @@ Page {
                 }
                 text: qsTr("This application is made by Alexey Andreyev
                     as non-commertial work without Rocketbank.
-                    Application cover is made by Alexey
-                    with help from Ancelad (thanks!).
                     This application is developed with Sailfish IDE
                     in GNU/Linux/Archlinux/KDE operating system.
                     Licence: GPLv3")

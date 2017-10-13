@@ -21,16 +21,17 @@ BackgroundItem {
         //spacing: Theme.paddingLarge
 
         Label {
-            id: label
             anchors.left: parent.left
+            id: label
             width: parent.width-image.width-padding
             verticalAlignment: Text.AlignVCenter
-            anchors.verticalCenter: parent.verticalCenter
             color: root.down || root.contentHighlighted ? Theme.highlightColor : Theme.primaryColor
             font.pixelSize: Theme.fontSizeSmall
             truncationMode: TruncationMode.Fade
             wrapMode: Text.WordWrap
             textFormat: Text.AutoText
+            // height: parent.height
+            anchors.verticalCenter: parent.verticalCenter
         }
 
         Image {

@@ -11,8 +11,8 @@ class CoolFeedModel : public AbstractJsonRestListModel
     Q_PROPERTY(QString balanceAmount READ balanceAmount NOTIFY balanceAmountChanged)
     Q_PROPERTY(QString balanceCurrencyCode READ balanceCurrencyCode NOTIFY balanceCurrencyCodeChanged)
     Q_PROPERTY(QString miles READ miles WRITE setMiles NOTIFY milesChanged)
-    Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged)
-    Q_PROPERTY(QString token READ token WRITE setToken NOTIFY tokenChanged)
+    Q_PROPERTY(QString email READ email NOTIFY emailChanged)
+    Q_PROPERTY(QString token READ token NOTIFY tokenChanged)
 
 public:
     explicit CoolFeedModel(QObject *parent = 0);
@@ -29,10 +29,6 @@ public:
     QString token() const;
 
 public slots:
-
-    void setEmail(QString email);
-    void setToken(QString token);
-    void login(QString pin);
 
 signals:
     void balanceAmountChanged(QString balanceAmount);
@@ -52,11 +48,11 @@ private:
     void setBalanceAmount(QString balanceAmount);
     void setMiles(QString miles);
 
-    QString m_balanceAmount;
-    QString m_balanceCurrencyCode;
-    QString m_miles;
-    QString m_email;
-    QString m_token;
+    QString _balanceAmount;
+    QString _balanceCurrencyCode;
+    QString _miles;
+    QString _email;
+    QString _token;
 };
 
 #endif // COOLFEEDMODEL_H
