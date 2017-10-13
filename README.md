@@ -6,7 +6,7 @@ Unofficial http://rocketbank.ru/ client for Sailfish OS
 + [Openrepos](https://openrepos.net/content/aa13q/cosmonaut)
 
 ## Screenshots
-![Imgur](https://i.imgur.com/1fgOS39.jpg)
+![Imgur](https://i.imgur.com/BVPiCMZ.jpg)
 
 ### Support
 + [paypal](https://paypal.me/aa13q)
