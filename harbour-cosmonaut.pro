@@ -35,6 +35,7 @@ DISTFILES += \
     qml/pages/AboutPage.qml \
     qml/pages/LoginPage.qml \
     qml/pages/AuthPage.qml \
+    qml/pages/LogoutConfirmationDialog.qml \
     qml/pages/components/FeedListItem.qml \
     qml/assets/images/rocket.svg \
     qml/assets/images/aa13q.jpeg \

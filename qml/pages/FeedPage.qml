@@ -61,6 +61,12 @@ Page {
 
         PullDownMenu {
             MenuItem {
+                text: qsTr("Logout")
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("LogoutConfirmationDialog.qml"))
+                }
+            }
+            MenuItem {
                 text: qsTr("Refresh")
                 onClicked: {
                     coolFeedModel.reload()

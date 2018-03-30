@@ -367,3 +367,8 @@ void QtRestRocketAPI::setFreeCashOutLimit(int freeCashOutLimite)
     _freeCashOutLimit = freeCashOutLimite;
     emit freeCashOutLimitChanged(_freeCashOutLimit);
 }
+
+void QtRestRocketAPI::clearSettings()
+{
+    _settings->clear();
+}

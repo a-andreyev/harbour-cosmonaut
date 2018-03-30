@@ -92,6 +92,8 @@ public slots:
     void setCashOutCount(int cashOutCount);
     void setFreeCashOutLimit(int freeCashOutLimit);
 
+    Q_INVOKABLE void clearSettings();
+
 protected slots:
     void replyError(QNetworkReply::NetworkError error);
 
