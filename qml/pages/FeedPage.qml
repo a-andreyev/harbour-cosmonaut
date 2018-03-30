@@ -89,7 +89,7 @@ Page {
             }
 
             delegate: FeedListItem {
-                width: parent.width
+                width: feedView.width
                 description: details ? details : ""
                 text: money ? (money.amount && money.currency_code) ? money.amount + " " + getSymbolFromCurrency(money.currency_code) : "" : ""
                 extraText: comment ? comment : ""
