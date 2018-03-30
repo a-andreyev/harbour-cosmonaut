@@ -79,7 +79,7 @@ Page {
             id: header
             description: model.miles + " " +qsTr("rocketrubles") + "\n"
                          +(coolFeedModel.api.freeCashOutLimit-coolFeedModel.api.cashOutCount)
-                         +" of "+coolFeedModel.api.freeCashOutLimit+qsTr(" free cash outs")
+                         +qsTr(" of ")+coolFeedModel.api.freeCashOutLimit+qsTr(" free cash outs")
         }
         SilicaListView {
             clip: true

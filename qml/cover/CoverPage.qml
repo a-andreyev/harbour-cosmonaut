@@ -36,7 +36,7 @@ CoverBackground {
             width: parent.width
             id: labelFreeCashOut
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: (coolFeedModel.api.freeCashOutLimit-coolFeedModel.api.cashOutCount)+" of "+coolFeedModel.api.freeCashOutLimit+qsTr(" free cash outs")
+            text: (coolFeedModel.api.freeCashOutLimit-coolFeedModel.api.cashOutCount)+qsTr(" of ")+coolFeedModel.api.freeCashOutLimit+qsTr(" free cash outs")
         }
     }
 

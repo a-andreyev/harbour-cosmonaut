@@ -97,6 +97,10 @@
         <source> free cash outs</source>
         <translation> бесплатных снятий</translation>
     </message>
+    <message>
+        <source> of </source>
+        <translation> из </translation>
+    </message>
 </context>
 <context>
     <name>FeedPage</name>
@@ -106,8 +110,7 @@
     </message>
     <message>
         <source>Refresh</source>
-        <translatorcomment>Обновить</translatorcomment>
-        <translation></translation>
+        <translation>Обновить</translation>
     </message>
     <message>
         <source> free cash outs</source>
@@ -116,6 +119,10 @@
     <message>
         <source>Logout</source>
         <translation>Выйти из профиля</translation>
+    </message>
+    <message>
+        <source> of </source>
+        <translation> из </translation>
     </message>
 </context>
 <context>

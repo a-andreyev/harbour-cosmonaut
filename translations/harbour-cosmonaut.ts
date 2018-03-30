@@ -93,6 +93,10 @@
         <source> free cash outs</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source> of </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FeedPage</name>
@@ -110,6 +114,10 @@
     </message>
     <message>
         <source>Logout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> of </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
