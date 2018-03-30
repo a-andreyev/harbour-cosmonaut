@@ -1,5 +1,6 @@
 #include "coolfeedmodel.h"
 #include <QDateTime>
+#include <algorithm>
 
 CoolFeedModel::CoolFeedModel(QObject *parent) : AbstractJsonRestListModel(parent)
 {
@@ -43,6 +44,12 @@ void CoolFeedModel::setMiles(QString miles)
 
     _miles = miles;
     emit milesChanged(miles);
+}
+
+bool CoolFeedModel::_compareFeedObj(const QVariant &first, const QVariant &second)
+{
+    return second.toJsonObject().value(QStringLiteral("happened_at")).toDouble() <
+            first.toJsonObject().value(QStringLiteral("happened_at")).toDouble();
 }
 
 void CoolFeedModel::setBalanceCurrencyCode(QString balanceCurrencyCode)
@@ -107,6 +114,7 @@ QVariantList CoolFeedModel::getVariantList(QByteArray bytes)
             feedList.append(feedObj);
         }
     }
+    std::sort(feedList.begin(), feedList.end(), _compareFeedObj);
     return feedList;
 }
 

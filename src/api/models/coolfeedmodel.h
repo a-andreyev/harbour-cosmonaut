@@ -53,6 +53,8 @@ private:
     QString _miles;
     QString _email;
     QString _token;
+
+    static bool _compareFeedObj(const QVariant &first, const QVariant& second);
 };
 
 #endif // COOLFEEDMODEL_H
