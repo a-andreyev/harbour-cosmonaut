@@ -30,7 +30,6 @@ OTHER_FILES += \
 DISTFILES += \
     qml/harbour-cosmonaut.qml \
     qml/cover/CoverPage.qml \
-    qml/pages/SecondPage.qml \
     qml/pages/FeedPage.qml \
     qml/pages/components/IconTextButton.qml \
     qml/pages/AboutPage.qml \
