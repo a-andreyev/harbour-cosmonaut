@@ -86,11 +86,11 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <source>? free cash outs</source>
+        <source>rocketrubles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>rocketrubles</source>
+        <source> free cash outs</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -102,6 +102,14 @@
     </message>
     <message>
         <source>Refresh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> free cash outs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logout</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -117,6 +125,21 @@
     </message>
     <message>
         <source>Enter Rocketbank card PIN code</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LogoutConfirmationDialog</name>
+    <message>
+        <source>Really logout?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

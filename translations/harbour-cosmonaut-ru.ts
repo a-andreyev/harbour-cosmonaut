@@ -90,12 +90,12 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <source>? free cash outs</source>
-        <translation>? бесплатных снятий</translation>
-    </message>
-    <message>
         <source>rocketrubles</source>
         <translation>рокетруб</translation>
+    </message>
+    <message>
+        <source> free cash outs</source>
+        <translation> бесплатных снятий</translation>
     </message>
 </context>
 <context>
@@ -108,6 +108,14 @@
         <source>Refresh</source>
         <translatorcomment>Обновить</translatorcomment>
         <translation></translation>
+    </message>
+    <message>
+        <source> free cash outs</source>
+        <translation> бесплатных снятий</translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation>Выйти из профиля</translation>
     </message>
 </context>
 <context>
@@ -123,6 +131,21 @@
     <message>
         <source>Enter Rocketbank card PIN code</source>
         <translation>Введите рокеткод</translation>
+    </message>
+</context>
+<context>
+    <name>LogoutConfirmationDialog</name>
+    <message>
+        <source>Really logout?</source>
+        <translation>Вы уверены, что хотите выйти из профиля?</translation>
+    </message>
+    <message>
+        <source>Logout</source>
+        <translation>Выход</translation>
+    </message>
+    <message>
+        <source>Back</source>
+        <translation>Вернуться</translation>
     </message>
 </context>
 <context>
