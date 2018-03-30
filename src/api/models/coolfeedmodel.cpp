@@ -81,7 +81,7 @@ QVariantList CoolFeedModel::getVariantList(QByteArray bytes)
 
     // TODO: get rid of magic strings (QStringLiteral or QLatin1String)
 
-    //qDebug()<<jsonObject;
+    qDebug()<<jsonObject;
 
     setMiles(QString::number(jsonObject.value(QString("miles")).toDouble()));
     QJsonObject balanceObject = jsonObject.value(QString("balance")).toObject();
@@ -103,6 +103,7 @@ QVariantList CoolFeedModel::getVariantList(QByteArray bytes)
             happenedAt.setTime_t(ms);
             feedObj.remove(QStringLiteral("happened_at"));
             feedObj.insert(QStringLiteral("happened_at"),happenedAt.toMSecsSinceEpoch());
+            feedObj.insert(QStringLiteral("happened_at_date_string"),happenedAt.toString("dd.MM.yyyy"));
             feedList.append(feedObj);
         }
     }

@@ -75,17 +75,24 @@ Page {
             anchors.topMargin: header.height
             anchors.fill: parent
             VerticalScrollDecorator {}
+            section.labelPositioning: ViewSection.InlineLabels
+            section.property: "happened_at_date_string"
+            section.criteria: ViewSection.FullString
+            section.delegate: Label {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: Theme.horizontalPageMargin
+                }
+                horizontalAlignment: Text.AlignRight
+                text: section
+            }
+
             delegate: FeedListItem {
                 width: parent.width
                 description: details ? details : ""
-                text: money ? money.amount ? money.amount : "" : ""
-                extraText: {
-                    if (model.happened_at) {
-                        // console.log(happened_at)
-                        return Qt.formatDateTime(new Date(happened_at),"hh:mm dd.MM.yyyy")
-                    }
-                    return ""
-                }
+                text: money ? (money.amount && money.currency_code) ? money.amount + " " + getSymbolFromCurrency(money.currency_code) : "" : ""
+                extraText: comment ? comment : ""
                 iconSource: {
                     if (model.friend) {
                         if (model.friend.userpic_url) {
