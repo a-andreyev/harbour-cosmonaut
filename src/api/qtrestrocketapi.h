@@ -14,6 +14,11 @@ class QtRestRocketAPI : public APIBase
     Q_PROPERTY(QString token READ token WRITE setToken NOTIFY tokenChanged)
 
     Q_PROPERTY(QString firstName READ firstName WRITE setFirstName NOTIFY firstNameChanged)
+    // TODO: ProfileModel
+    // cash_out_count
+    Q_PROPERTY(int cashOutCount READ cashOutCount WRITE setCashOutCount NOTIFY cashOutCountChanged)
+    // free_cash_out_limit
+    Q_PROPERTY(int freeCashOutLimit READ freeCashOutLimit WRITE setFreeCashOutLimit NOTIFY freeCashOutLimitChanged)
 
 public:
     Q_INVOKABLE explicit QtRestRocketAPI();
@@ -42,9 +47,14 @@ public:
     QNetworkReply *getFeed(QStringList sort, Pagination *pagination,
                            QVariantMap filters = QVariantMap(),
                            QStringList fields = QStringList());
+
+    QNetworkReply *getProfile();
     QString email() const;
     QString token() const;
     QString firstName() const;
+
+    int cashOutCount() const;
+    int freeCashOutLimit() const;
 
 signals:
     void registrationRequested();
@@ -59,7 +69,12 @@ signals:
     void tokenChanged(QString token);
     void firstNameChanged(QString firstName);
 
+    void cashOutCountChanged(int cashOutCount);
+    void freeCashOutLimitChanged(int freeCashOutLimit);
+
 public slots:
+    void profileRefresh();
+    void profileRefreshFinished();
     void login(QString pin);
     void loginFinished();
     void requestSMS(QString phone);
@@ -74,11 +89,15 @@ public slots:
 
     void saveRegistation();
 
+    void setCashOutCount(int cashOutCount);
+    void setFreeCashOutLimit(int freeCashOutLimit);
+
 protected slots:
     void replyError(QNetworkReply::NetworkError error);
 
 private:
     QString _userAgent;
+    QString _profilePath;
     QString _coolFeedPath;
     QString _loginPath;
     QString _deviceRegisterPath;
@@ -91,6 +110,8 @@ private:
     QString _email;
     QString _smsId;
     QString _deviceID;
+    int _cashOutCount;
+    int _freeCashOutLimit;
     QSettings *_settings;
     // fieds:
     QString _organizationFieldName;
@@ -114,6 +135,9 @@ private:
     QString _firstNameFieldName;
     QString _idFieldName;
     QString _firstName;
+
+    QString _cashOutCountFieldName;
+    QString _freeCashOutLimitFieldName;
 };
 
 #endif // QTRESTROCKETAPI_H

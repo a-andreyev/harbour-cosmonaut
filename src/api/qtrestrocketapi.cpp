@@ -29,7 +29,11 @@ QtRestRocketAPI::QtRestRocketAPI() : APIBase(0)
     _firstNameFieldName = QStringLiteral("first_name");
     _idFieldName = QStringLiteral("id");
 
+    _cashOutCountFieldName = QStringLiteral("cash_out_count");
+    _freeCashOutLimitFieldName = QStringLiteral("free_cash_out_limit");
+
     _userAgent = QStringLiteral("Cosmonaut/5 (aa13q@ya.ru)");
+    _profilePath = QStringLiteral("/profile");
     _coolFeedPath = QStringLiteral("/operations/cool_feed");
     _loginPath = QStringLiteral("/login");
     _deviceRegisterPath = QStringLiteral("/devices/register");
@@ -86,13 +90,21 @@ QNetworkRequest QtRestRocketAPI::createRequest(const QUrl &url) const
 
 QNetworkReply *QtRestRocketAPI::handleRequest(QString path, QStringList sort, Pagination *pagination, QVariantMap filters, QStringList fields, QString id)
 {
-    qDebug()<<Q_FUNC_INFO<<path;
+    // qDebug()<<Q_FUNC_INFO<<path;
     return Q_NULLPTR;
 }
 
 QNetworkReply *QtRestRocketAPI::getFeed(QStringList sort, Pagination *pagination, QVariantMap filters, QStringList fields)
 {
     QUrl url = QUrl(baseUrl()+_coolFeedPath);
+
+    QNetworkReply *reply = get(url);
+    return reply;
+}
+
+QNetworkReply *QtRestRocketAPI::getProfile()
+{
+    QUrl url = QUrl(baseUrl()+_profilePath);
 
     QNetworkReply *reply = get(url);
     return reply;
@@ -111,6 +123,57 @@ QString QtRestRocketAPI::token() const
 QString QtRestRocketAPI::firstName() const
 {
     return _firstName;
+}
+
+int QtRestRocketAPI::cashOutCount() const
+{
+    return _cashOutCount;
+}
+
+int QtRestRocketAPI::freeCashOutLimit() const
+{
+    return _freeCashOutLimit;
+}
+
+void QtRestRocketAPI::profileRefresh()
+{
+    QNetworkReply *reply = getProfile();
+    connect(reply,SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(replyError(QNetworkReply::NetworkError)));
+    connect(reply, SIGNAL(finished()), this, SLOT(profileRefreshFinished()));
+}
+
+void QtRestRocketAPI::profileRefreshFinished()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+    QByteArray answer = reply->readAll();
+
+    QJsonParseError parseError;
+    QJsonDocument document = QJsonDocument::fromJson(answer, &parseError);
+    QJsonObject jsonObject = document.object();
+
+    if (parseError.error != QJsonParseError::NoError) {
+        // qDebug() << parseError.errorString();
+        return;
+    }
+
+    QString accountNumber = jsonObject.value(QString("user")).toObject()
+            .value(QString("account_details")).toObject().value(QString("account")).toString();
+
+    if (accountNumber.isEmpty()) {
+        return;
+    }
+    foreach (QJsonValue account, jsonObject.value(QString("user")).toObject()
+             .value(QString("accounts")).toArray()) {
+        QJsonObject accountObj = account.toObject();
+        if (accountObj
+                .value(QString("account_details")).toObject()
+                .value(QString("account")).toString()==accountNumber) {
+            setCashOutCount(accountObj.value(QString("cash_out_count")).toInt());
+            setFreeCashOutLimit(accountObj.value(QString("free_cash_out_limit")).toInt());
+        }
+    }
+
+
 }
 
 void QtRestRocketAPI::replyError(QNetworkReply::NetworkError error)
@@ -285,4 +348,22 @@ void QtRestRocketAPI::saveRegistation()
         _settings->setValue(_firstNameFieldName,_firstName);
     }
     emit registered();
+}
+
+void QtRestRocketAPI::setCashOutCount(int cashOutCount)
+{
+    if (_cashOutCount == cashOutCount)
+        return;
+
+    _cashOutCount = cashOutCount;
+    emit cashOutCountChanged(_cashOutCount);
+}
+
+void QtRestRocketAPI::setFreeCashOutLimit(int freeCashOutLimite)
+{
+    if (_freeCashOutLimit == freeCashOutLimite)
+        return;
+
+    _freeCashOutLimit = freeCashOutLimite;
+    emit freeCashOutLimitChanged(_freeCashOutLimit);
 }

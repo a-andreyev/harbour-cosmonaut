@@ -5,6 +5,7 @@ import "./components"
 
 Dialog {
     id: pages
+    objectName: "LoginPage"
 
     property var model
 

@@ -33,9 +33,10 @@ CoverBackground {
         }
 
         Label {
-            // TODO:
+            width: parent.width
             id: labelFreeCashOut
-            text: qsTr("? free cash outs")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            text: (coolFeedModel.api.freeCashOutLimit-coolFeedModel.api.cashOutCount)+" of "+coolFeedModel.api.freeCashOutLimit+qsTr(" free cash outs")
         }
     }
 

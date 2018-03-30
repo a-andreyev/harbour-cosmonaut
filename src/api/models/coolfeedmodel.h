@@ -30,6 +30,9 @@ public:
 
 public slots:
 
+    Q_INVOKABLE void profileRefresh();
+    void reload();
+
 signals:
     void balanceAmountChanged(QString balanceAmount);
     void balanceCurrencyCodeChanged(QString BalanceCurrencyCode);

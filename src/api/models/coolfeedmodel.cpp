@@ -37,6 +37,17 @@ QString CoolFeedModel::token() const
     return _token;
 }
 
+void CoolFeedModel::profileRefresh()
+{
+    static_cast<QtRestRocketAPI *>(apiInstance())->profileRefresh();
+}
+
+void CoolFeedModel::reload()
+{
+    profileRefresh();
+    AbstractJsonRestListModel::reload();
+}
+
 void CoolFeedModel::setMiles(QString miles)
 {
     if (_miles == miles)
@@ -88,7 +99,7 @@ QVariantList CoolFeedModel::getVariantList(QByteArray bytes)
 
     // TODO: get rid of magic strings (QStringLiteral or QLatin1String)
 
-    qDebug()<<jsonObject;
+    // qDebug()<<jsonObject;
 
     setMiles(QString::number(jsonObject.value(QString("miles")).toDouble()));
     QJsonObject balanceObject = jsonObject.value(QString("balance")).toObject();
