@@ -43,6 +43,7 @@ CoverBackground {
         smooth: true
         source: "../assets/images/rocket.svg"
         opacity: 0.63
+        sourceSize: Qt.size(parent.width,parent.height)
         fillMode: Image.PreserveAspectCrop
     }
     Column {
